@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="tailwind.css" />
+    <title>BuildTrac</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&family=Quicksand:wght@500&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .nav {
+        position: relative;
+      }
+      .active-after::after {
+        content: '';
+        position: absolute;
+        width: 30px;
+        height: 2px;
+        background-color: #3b51d1;
+        z-index: 10000;
+        bottom: 0;
+        left: 5.5%;
+      }
+      @media only screen and (min-width: 1920px) {
+        .active-after::after {
+          left: 56px;
+        }
+      }
+    </style>
+  </head>
+  <body class="overflow-x-hidden ">
+    <!-- Header start here -->
+    <header
+      class="bg-gradient-to-br from-white to-offWhite overflow-hidden dsk:h-46 select-none"
+    >
+      <div class="flex justify-between items-center w-10/12 m-auto">
+        <svg
+          class="dsk:mt-6 w-48 "
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          width="250"
+          height="124.5"
+          viewBox="0 0 393 124.5"
+        >
+          <defs>
+            <pattern
+              id="pattern"
+              preserveAspectRatio="none"
+              width="100%"
+              height="100%"
+              viewBox="0 0 224 71"
+            >
+              <image
+                width="224"
+                height="71"
+                xlink:href="data:image/jpeg;base64,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"
+              />
+            </pattern>
+          </defs>
+          <rect
+            id="Buildtrac"
+            width="393"
+            height="124.5"
+            fill="url(#pattern)"
+          />
+        </svg>
+        <div class="nav flex justify-evenly items-center w-43% w-43%font-quick">
+          <a class="active-after text-blue cursor-pointer">HOME</a>
+          <a class="cursor-pointer">SERVICES</a>
+          <a class="cursor-pointer">ABOUT US</a>
+          <a class="cursor-pointer">PROJECTS</a>
+          <a class="cursor-pointer">CONTACT</a>
+          <div class="cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28.194"
+              height="18.194"
+              viewBox="0 0 28.194 28.194"
+            >
+              <path
+                id="search-solid"
+                d="M27.81,24.375l-5.49-5.49a1.321,1.321,0,0,0-.936-.385h-.9A11.45,11.45,0,1,0,18.5,20.482v.9a1.32,1.32,0,0,0,.385.936l5.49,5.49a1.316,1.316,0,0,0,1.867,0L27.8,26.247A1.327,1.327,0,0,0,27.81,24.375ZM11.454,18.5A7.048,7.048,0,1,1,18.5,11.453,7.044,7.044,0,0,1,11.454,18.5Z"
+                fill="#424242"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Header End here -->
+<!-- -------------------------------------------------------------------------------- -->
+
+    <!-- Body Top start here -->
+
+    <div
+      class="
+        bg-gradient-to-tr
+        from-white
+        to-offWhite
+        overflow-hidden
+        relative
+        dsk:h-897
+        h-500
+      "
+    >
+      <div class="flex justify-between">
+        <div class="w-full">
+          <div class="dsk:pt-52 dsk:pb-6 dsk:pl-40 pl-28 pb-6">
+            <h1
+              class="
+                text-heading
+                font-rob font-black
+                leading-relaxed
+                text-5xl
+                dsk:text-5rem
+              "
+            >
+              LOREM IPSUM DUMMY TEXT
+            </h1>
+            <p
+              class="
+                w-10/12
+                text-2xl text-blue-light
+                font-lat
+                leading-normal
+                relative
+                z-20
+                dsk:mt-4
+              "
+            >
+              It is a long established fact that a reader will be distracted by
+              the readable content of a page when looking at its layout. The
+              point of using Lorem Ipsum is that it has a more-or-less normal
+              distribution of letters,
+            </p>
+          </div>
+
+          <button
+            class="
+              text-blue-light text-xl
+              font-rob
+              border-2
+              rounded-3xl
+              py-1.5
+              px-12
+              ml-28
+              dsk:ml-40
+              relative
+              z-50
+              dsk:mt-10
+              select-none
+            "
+          >
+            READ MORE
+          </button>
+        </div>
+        <div class="img w-full">
+          <img
+          src="Svg/vector-1.png"
+          alt="Two peoples are Talking."
+          class="w-full pr-12 h-96 dsk:pr-8 dsk:w-53% dsk:pt-24 select-none"
+        />
+        </div>
+        
+      </div>
+      <div class="select-none">
+        <img src="Svg\Path 617.png" alt="vector" class="absolute -bottom-0.5" />
+        <img
+          src="Svg/Group 24.png"
+          alt="Go down and find more about us."
+          class="absolute bottom-0 right-2/4 z-10 dsk:w-20 w-16"
+        />
+      </div>
+    </div>
+
+    <!-- Body Top End here -->
+<!-- -------------------------------------------------------------------------------- -->
+
+    <!-- Services Start Here -->
+
+    <div
+      class="
+        bg-gradient-to-tr
+        from-yellow-lighter
+        to-sky-light
+        text-center
+        overflow-hidden
+        relative
+      "
+    >
+      <div class="relative z-20 ">
+        <h1 class="  mt-28 font-rob font-bold font text-7xl text-yellow-new ">
+          SERVICES
+        </h1>
+        <p
+          class="
+            font-lat font-light
+            text-gray-bold
+            tracking-wider
+            w-8/12
+            m-auto
+            mt-10
+            dsk:w-2/4
+          "
+        >
+          It is a long established fact that a reader will be distracted by the
+          readable content of a page when looking at its layout. The point of
+          using Lorem Ipsum is that it has a more-or-less normal
+        </p>
+      
+      </div>
+      <div
+        class="
+          flex
+          justify-around
+          mt-9
+          mb-32
+          font-lat
+          text-2xl
+          font-normal
+          w-9/12
+          m-auto
+        "
+      >
+        <div class="w-4/12 mt-12 p-4 z-20">
+          <center>
+            <img src="Svg\services.png" alt="A laptop sign in a circle." class="select-none" />
+          </center>
+          <h6 class="text-yellow-new p-6">MANAGEMENT</h6>
+          <p class="text-gray-bold dsk:p-6">
+            It is a long established fact that a reader will be distracted by
+            the readable content of a
+          </p>
+        </div>
+        <div class="p-4 w-4/12 z-20">
+          <center>
+            <img
+              src="Svg\professional.png"
+              alt="This sign hold professional purpose. "
+              class="select-none"
+            />
+          </center>
+          <h6 class="text-yellow-new p-6">PROFESSIONAL</h6>
+          <p class="text-gray-bold dsk:p-6">
+            It is a long established fact that a reader will be distracted by
+            the readable content of a
+          </p>
+        </div>
+        <div class="mt-14 w-4/12 p-4 z-20">
+          <center>
+            <img
+              src="Svg\support.png"
+              alt="This sign stand for our fast supporting role."
+              class="select-none"
+            />
+          </center>
+          <h6 class="text-yellow-new p-6">FAST SUPPORT</h6>
+          <p class="text-gray-bold dsk:p-6">
+            It is a long established fact that a reader will be distracted by
+            the readable content of a
+          </p>
+        </div>
+      </div>
+    
+      <img
+        src="Svg\Path 616.png"
+        alt="Background vector"
+        class="absolute top-36 select-none z-10"
+      />
+    </div>
+
+    <!-- Services End Here -->
+<!-- -------------------------------------------------------------------------------- -->
+
+    <!-- About Us start here -->
+    <div
+      class="
+        bg-gradient-to-br
+        from-white-near
+        to-white-blue
+        overflow-hidden
+        relative
+      "
+    >
+      <div class="flex w-10/12 m-auto mb-48">
+        <div class="w-2/4 mt-24 select-none">
+          <img src="Svg\gathering.png" alt="Official gathering" />
+        </div>
+        <div class="w-2/4 text-right mt-40">
+          <div class="text">
+            <h1 class="font-rob font-bold text-5xl text-blue-dark mb-10">
+              ABOUT US
+            </h1>
+            <div class="w-20 h-2 bg-blue-dark float-right"></div>
+            <p
+              class="
+                pl-16
+                clear-both
+                mt-28
+                text-justify
+                font-lat
+                text-blue-lighter
+                font-light
+              "
+            >
+              It is a long established fact that a reader will be distracted by
+              the readable content of a page when looking at its layout. The
+              point of using Lorem Ipsum is that it has a more-or-less normal
+              distribution of letters, as opposed to using
+            </p>
+          </div>
+
+          <button
+            class="
+              bg-blue-dark
+              text-white
+              font-rob font-medium
+              px-14
+              py-3.5
+              rounded-3xl
+              mt-16
+              select-none
+            "
+          >
+            READ MORE
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Us end here -->
+<!-- -------------------------------------------------------------------------------- -->
+
+    <!-- What We Do start here -->
+
+    <div class="bg-gradient-to-tr from-white to-sky overflow-hidden relative">
+      <div class="mt-10 relative z-20">
+        <div class="w-53% text-center m-auto font-rob">
+          <h1 class="text-4xl font-medium mb-8 text-blue-dark">WHAT WE DO</h1>
+          <div class="w-10 h-1 bg-blue-dark mx-auto mb-8"></div>
+          <p class="text-xl font-light text-blue-lighter">
+            It is a long established fact that a reader will be distracted by
+            the readable content of a page when looking at its layout.
+          </p>
+        </div>
+
+        <img
+          src="Svg\what-we-do.png"
+          alt="A vector base picture"
+          class="w-2/4 mx-auto my-20 select-none"
+        />
+
+        <div
+          class="
+            flex
+            justify-between
+            w-10/12
+            mx-auto
+            font-rob
+            ml-36
+            mb-40
+            dsk:ml-52
+          "
+        >
+          <!-- Card1 start here -->
+
+          <div class="card1">
+            <div class="flex mt-16">
+              <img
+                src="Svg\database-solid.png"
+                alt="Sign of database"
+                class="h-12 mt-3 select-none"
+              />
+              <div class="ml-10 mr-20">
+                <h1 class="text-3xl text-unknown font-medium">
+                  Datenbankmanagement
+                </h1>
+                <p class="text-xl font-light text-gray-bold">
+                  It is a long established fact that a reader will be distracted
+                  by the readable
+                </p>
+              </div>
+            </div>
+            <div class="flex mt-16">
+              <img
+                src="Svg\handshake-solid.png"
+                alt="Sign of hand shaking"
+                class="h-10 w-16 mt-3 -ml-3 select-none"
+              />
+              <div class="ml-8 mr-20">
+                <h1 class="text-3xl text-unknown font-medium">
+                  Kundenhandling
+                </h1>
+                <p class="text-xl font-light text-gray-bold">
+                  It is a long established fact that a reader will be distracted
+                  by the readable
+                </p>
+              </div>
+            </div>
+            <div class="flex mt-16">
+              <img
+                src="Svg\users-solid.png"
+                alt="Sign of User"
+                class="h-10 w-16 mt-3 -ml-3 select-none"
+              />
+              <div class="ml-10 mr-20">
+                <h1 class="text-3xl text-unknown font-medium">
+                  Benutzer verwalten
+                </h1>
+                <p class="text-xl font-light text-gray-bold">
+                  It is a long established fact that a reader will be distracted
+                  by the readable
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card2 start here -->
+
+          <div class="card2">
+            <div class="flex mt-16">
+              <img
+                src="Svg\database-solid.png"
+                alt="Sign of database"
+                class="h-12 mt-3 select-none"
+              />
+              <div class="ml-10 mr-20">
+                <h1 class="text-3xl text-unknown font-medium">
+                  Datenbankmanagement
+                </h1>
+                <p class="text-xl font-light text-gray-bold">
+                  It is a long established fact that a reader will be distracted
+                  by the readable
+                </p>
+              </div>
+            </div>
+            <div class="flex mt-16">
+              <img
+                src="Svg\handshake-solid.png"
+                alt="Sign of hand shaking"
+                class="h-10 w-16 mt-3 -ml-3 select-none"
+              />
+              <div class="ml-8 mr-20">
+                <h1 class="text-3xl text-unknown font-medium">
+                  Kundenhandling
+                </h1>
+                <p class="text-xl font-light text-gray-bold">
+                  It is a long established fact that a reader will be distracted
+                  by the readable
+                </p>
+              </div>
+            </div>
+            <div class="flex mt-16">
+              <img
+                src="Svg\users-solid.png"
+                alt="Sign of User"
+                class="h-10 w-16 mt-3 -ml-3 select-none"
+              />
+              <div class="ml-10 mr-20">
+                <h1 class="text-3xl text-unknown font-medium">
+                  Benutzer verwalten
+                </h1>
+                <p class="text-xl font-light text-gray-bold">
+                  It is a long established fact that a reader will be distracted
+                  by the readable
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card2 End here -->
+        </div>
+      </div>
+      
+      <img
+        src="Svg\circle.png"
+        class="w-43% absolute bottom-16% -right-16  select-none z-10"
+      />
+      <img src="Svg\Path 618.png" class="absolute -bottom-1 select-none " />
+    </div>
+
+    <!-- What We Do end here -->
+<!-- -------------------------------------------------------------------------------- -->
+
+    <!-- Projects start here -->
+<!--  
+-->
+
+
+
+    <div class="bg-project-background  overflow-hidden relative ">
+      
+
+      
+        <div class="w-10/12 mx-auto mt-20 mb-16 relative z-50">
+          <div class="font-rob">
+            <h1 class="font-bold text-4xl text-yellow-new">PROJECTS</h1>
+            <div class="h-2 w-20 bg-yellow-new mt-10 mb-8"></div>
+            <p class=" font-light text-yellow-medium mb-20">EINIGE UNSERER NEUEN PROJEKTE</p>
+          </div>
+
+          
+
+            <!-- flex-container1 start here -->
+
+          <div class="flex-container1">
+            <div class="flex justify-between mb-16">
+              <!-- card1 start here -->
+
+              <div class="flex w-46% h-72 bg-white">
+                <img src="Svg/metting.png" alt="A picture of official metting." class="select-none"/>
+                <div class="p-4 font-rob se">
+                  <h3 class="text-xl font-bold text-yellow-new mb-2">Lorem ipsum dolor sit amet</h3>
+                  <p class=" font-normal text-gray-bold">The passage experienced a surge in popularity during the 1960s when Letraset used it on their dry-transfer sheets, and again during the 90s as desktop</p>
+                  <p class=" mt-12 font-extralight text-sm text-yellow-light">3 days ago</p>
+                  <p class="float-right -mt-5 text-sm text-yellow-new">MEHR ERFAHREN</p>
+                </div>
+              </div>
+
+              <!-- card1 end here -->
+
+              <!-- card2 start here -->
+
+              <div class="flex w-46% h-72 bg-white">
+                <img src="Svg/sucessfull-deal.png" alt="A picture of official metting." class="select-none"/>
+                <div class="p-4 font-rob">
+                  <h3 class="text-xl font-bold text-yellow-new mb-2">Lorem ipsum dolor sit amet</h3>
+                  <p class=" font-normal text-gray-bold">The passage experienced a surge in popularity during the 1960s when Letraset used it on their dry-transfer sheets, and again during the 90s as desktop</p>
+                  <p class=" mt-12 font-extralight text-sm text-yellow-light">3 days ago</p>
+                  <p class="float-right -mt-5 text-sm text-yellow-new">MEHR ERFAHREN</p>
+                </div>
+              </div>
+
+              <!-- card2 end here -->
+            </div>
+          </div>
+
+          <!-- flex-container1 End here -->
+
+          <!-- flex-container2 start here -->
+
+          <div class="flex-container2">
+            <div class="flex justify-between">
+              <!-- card1 start here -->
+
+              <div class="flex w-46% h-72 bg-white">
+                <img src="Svg/guideline.png" alt="A picture of official metting." class="select-none"/>
+                <div class="p-4 font-rob">
+                  <h3 class="text-xl font-bold text-yellow-new mb-2">Lorem ipsum dolor sit amet</h3>
+                  <p class=" font-normal text-gray-bold">The passage experienced a surge in popularity during the 1960s when Letraset used it on their dry-transfer sheets, and again during the 90s as desktop</p>
+                  <p class=" mt-12 font-extralight text-sm text-yellow-light">3 days ago</p>
+                  <p class="float-right -mt-5 text-sm text-yellow-new">MEHR ERFAHREN</p>
+                </div>
+              </div>
+
+              <!-- card1 end here -->
+
+              <!-- card2 start here -->
+
+              <div class="flex w-46% h-72 bg-white ">
+                <img src="Svg/guideline-women.png" alt="A picture of official metting." class="select-none"/>
+                <div class="p-4 font-rob">
+                  <h3 class="text-xl font-bold text-yellow-new mb-2">Lorem ipsum dolor sit amet</h3>
+                  <p class=" font-normal text-gray-bold">The passage experienced a surge in popularity during the 1960s when Letraset used it on their dry-transfer sheets, and again during the 90s as desktop</p>
+                  <p class=" mt-12 font-extralight text-sm text-yellow-light">3 days ago</p>
+                  <p class="float-right -mt-5 text-sm text-yellow-new">MEHR ERFAHREN</p>
+                </div>
+              </div>
+
+              <!-- card2 end here -->
+            </div>
+          </div
+
+
+          <!-- flex-container2 end here -->
+
+        
+        </div>
+        <!-- <img src="Svg\Path 619 1.png" alt="Background image." class=" w-10/12 absolute -top-56 -right-40 overflow-hidden bg-clip-padding"> -->
+       
+    
+    
+    </div>
+  
+
+    <!-- Projects end here -->
+
+<!-- ------------------------------------------------------------------------------------------------- -->
+
+    <!-- Join-Now start here -->
+
+    <div class="mt-12 text-center font-rob select-none">
+      <center><img src="Svg/join-now.png" alt=""></center>
+      <button class="my-20 text-red-new text-3xl border px-24 py-5 rounded-full">JOIN NOW</button>
+    </div>
+
+    <!-- Join-Now End here -->
+
+    <!-- ------------------------------------------------------------------------------------------------- -->
+
+    <!--Different Company name start here  -->
+
+    <div class="bg-gray-new overflow-hidden select-none">
+      <div class="w-10/12 mx-auto my-20">
+        <div class="flex">
+          <img src="Svg/IBM_logo.svg.png" alt="Logo of IBM" class="pr-12 h-4/5">
+          <img src="Svg/lenovo.png" alt="Logo of lenovo" class=" pr-12 h-4/5">
+          <img src="Svg/hp.png" alt="Logo of HP" class="pr-12 h-4/5" >
+          <img src="Svg/Watchguard_logo.svg.png" alt="Logo of Watchguard" class="pr-12 h-4/5">
+          <img src="Svg/kaspersky-logo.png" alt="Logo of Kaspersky" class=" pr-12 h-4/5">
+        </div>
+        <div class="mt-12">
+          <center>
+            <img src="Svg/ncomputing.png" alt="Logo of Ncomputing" class="  inline-block pr-16 h-4/5">
+        <img src="Svg/Netgear_logo_2014.svg.png" alt="Logo of Netgear" class=" inline-block pr-16 h-4/5">
+          </center>
+          
+        </div>
+        
+
+      </div>
+    </div>
+
+    <!--Different Company name End here  -->
+
+<!-- ------------------------------------------------------------------------------------------------- -->
+
+    <!-- Contact start here -->
+
+    <div class="contact-with-us">
+      <div class="flex">
+        <div class="w-8/12 ">
+          <center><img src="Svg/contact.png" alt="A person describing something." class="w-2/4 mt-32 select-none"> </center>
+        </div>
+        <div class="w-43% bg-hero-pattern bg-no-repeat overflow-hidden bg-cover    bg-black ">
+          <div class="text-right w-3/4 font-rob mb-16">
+            <h1 class="mt-20 text-3xl text-purple-text font-medium">Contact</h1>
+            <div class="my-7 h-1 w-16 bg-purple-text float-right"></div>
+            <form action="#" autocomplete="on" class="clear-both text-white">
+              <input type="text" name="Name" placeholder="Name" required class="bg-transparent text-right border border-purple-border rounded w-8/12 h-10 text-lg pr-3"><br/><br/>
+              <input type="text" name="Address" placeholder="Address" required class="bg-transparent text-right border border-purple-border rounded w-8/12 h-10 text-lg pr-3"><br/><br/>
+              <textarea type="text" name="Message" placeholder="Your message" autocomplete="off" class="resize-none bg-transparent text-right border border-purple-border rounded w-8/12 h-28 pr-3 pt-2 "></textarea><br/><br/>
+              <button class="bg-purple-text px-4 py-2 text-white font-normal rounded select-none"><img src="Svg/send.png" alt="" class="inline-block pr-4 ">SEND</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact end here -->
+
+    <!-- ------------------------------------------------------------------------------------------------- -->
+
+    <!-- Contact-info start here -->
+
+    <div class="contact-info">
+      <div class="flex justify-evenly w-10/12 mx-auto mt-20 mb-16 font-rob">
+        <div class="w-1/4">
+          <img src="Svg/Logo_GiS.png" alt="Logo og Gis company" class="-ml-12 select-none">
+          <p class=" font-light text-gray-bold">Es ist eine seit langem bekannte Tatsache, dass ein Leser durch den lesbaren Inhalt einer Seite abgelenkt wird</p>
+        </div>
+        <div class="px-20 mt-12">
+          <h3 class=" text-xl font-normal py-2">LINKS</h3>
+          <div class="font-light text-gray-bold">
+            <a href="#" class="block py-2">Home</a>
+            <a href="#" class="block py-2">About us</a>
+            <a href="#" class="block py-2">Services</a>
+            <a href="#" class="block py-2">Contact</a>
+            <a href="#" class="block py-2">Address</a>
+          </div>
+         
+        </div>
+        <div class="w-1/4 mt-12 pr-20">
+          <h3 class=" text-xl font-normal pb-4 pt-2">ADRESSE</h3>
+          <p class=" font-light text-gray-bold">It is a long established fact that a reader will be distracted by the readable content of a page when </p>
+        </div>
+        <div class="w-1/3 mt-12 pr-20">
+          <h3 class=" text-xl font-normal pb-4 pt-2">NEWSLETTER</h3>
+          <form action="" class="relative mb-6">
+            <input type="email" name="email" placeholder="Email address" class="border border-purple-border rounded-full pl-3 h-41 w-full">
+            <button class="absolute p-2 bg-purple-text rounded-full top-1 right-2%"><img src="Svg/send.png" alt=""></button>
+          </form>
+          
+          <h3 class=" text-xl font-normal mb-6">Connect with</h3>
+          <div class="select-none">
+            <img src="Svg/facebook-brands.png" alt="Facebook" class="inline-block pr-6 "/>
+          <img src="Svg/google-plus-brands.png" alt="Google+" class="inline-block pr-6"/>
+          <img src="Svg/envelope-solid.png" alt="Envelope" class="inline-block pr-6"/>
+          <img src="Svg/twitter-square-brands.png" alt="Twitter" class="inline-block pr-6"/>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <!-- Contact-info End here -->
+
+
+<!-- ------------------------------------------------------------------------------------------------- -->
+
+    <!-- Footer start here -->
+
+    <footer class="bg-bottom overflow-hidden">
+      <div class="flex justify-around items-center m-auto h-24">
+        <p>@2019 GIS IT-Beratung Romango Ltd. All Rights Reserved.</p>
+        <div class="select-none">
+          <img src="Svg/Mastercard_2019_logo.svg.png" alt="Sign of Master card" class="inline-block pr-10 "/>
+          <img src="Svg/Visa_Inc._logo.svg.png" alt="Sing of Visa card" class="inline-block pr-10"/>
+          <img src="Svg/paypal-784404_960_720.png" alt=" Sign of Paypal" class="inline-block pr-10"/>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Footer End here -->
+  </body>
+</html>
